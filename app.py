@@ -70,7 +70,7 @@ def handle_userinput(user_question):
     # st.write(response)
     # enumerate in reverse order
 
-    for i, message in reversed(list(enumerate(st.session_state.chat_history))):
+    for i, message in enumerate(st.session_state.chat_history):
         if i % 2 == 0:
             # st.write(message.content)
             st.write(user_template.replace(
@@ -89,6 +89,30 @@ def main():
 
     st.set_page_config(page_title="Streamlit App", page_icon=":shark:", layout="wide")
     st.write(css, unsafe_allow_html=True)
+    # Inject custom CSS for glowing border effect
+    st.markdown(
+        """
+        <style>
+        .cover-glow {
+            width: 100%;
+            height: auto;
+            padding: 3px;
+            box-shadow: 
+                0 0 5px #330000,
+                0 0 10px #660000,
+                0 0 15px #990000,
+                0 0 20px #CC0000,
+                0 0 25px #FF0000,
+                0 0 30px #FF3333,
+                0 0 35px #FF6666;
+            position: relative;
+            z-index: -1;
+            border-radius: 30px;  /* Rounded corners */
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
 
     # st.header("Ai ChatBot with embeddings")
     # st.text_input("Ask a question", key="message")
@@ -98,7 +122,7 @@ def main():
         st.session_state.chat_history = None
 
     st.header("Ai ChatBot with embedding")
-    user_question = st.text_input("Ask a question about your documents:")
+    user_question = st.chat_input("Ask a question about your documents:")
     if user_question:
         handle_userinput(user_question)
 
